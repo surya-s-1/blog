@@ -1,0 +1,29 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    left: 0;
+    box-shadow: 0 1px 10px;
+}
+
+.navbar h2 {
+    margin-left: 32px;
+}
+
+.navcomp {
+    font-size: large;
+    padding: 12px 32px;
+    text-decoration: none;
+    color: blue;
+    background-color: white;
+    cursor: pointer;
+    border: 0;
+}
+
+.navcomp:hover {
+    background-color: rgb(202, 202, 202);
+}

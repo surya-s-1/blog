@@ -1,0 +1,39 @@
+.container {
+    padding: 12px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.container h2 {
+    margin: 12px;
+}
+
+.container input {
+    border: 0;
+    border-bottom: 1px solid black;
+    width: 80%;
+    margin: 12px;
+    font-size: large;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.container textarea {
+    border: 0;
+    border-bottom: 1px solid black;
+    width: 80%;
+    margin: 12px;
+    font-size: medium;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.container button {
+    font-size: medium;
+    padding: 8px 24px;
+    border: 1px solid black;
+    background-color: white;
+    cursor: pointer;
+    margin: 12px;
+}
+
+.container button:hover {
+    background-color: rgb(214, 214, 214);
+}

@@ -1,0 +1,15 @@
+.container {
+    padding: 12px;
+}
+
+.container h2, h3, p {
+    margin: 12px;
+}
+
+.container ul {
+    list-style: none;
+}
+
+.username {
+    margin-left: 32px;
+}
