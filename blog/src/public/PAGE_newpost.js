@@ -4,6 +4,8 @@ import NavBar from "../components/COMPONENT_navbar"
 import useAuth from '../functions/FUNCTION_auth'
 import '../styles/newpost.css'
 
+var host = `http://localhost:9000/api`
+
 export default function NewPost() {
     useAuth()
     
@@ -16,7 +18,7 @@ export default function NewPost() {
     // Pos the data to backend and if response is ok, naviate to that post else display error message
     const handleAddPost = async() => {
         const postData = {title: title, content: content, username: username}
-        const response = await fetch('http://localhost:9000/api/blog/posts',{
+        const response = await fetch(`${host}/blog/posts`,{
             method: 'POST',
             body: JSON.stringify(postData),
             headers: {

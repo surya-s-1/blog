@@ -4,6 +4,8 @@ import NavBar from "../components/COMPONENT_navbar";
 import useAuth from "../functions/FUNCTION_auth";
 import '../styles/postlist.css'
 
+var host = `http://localhost:9000/api`
+
 export default function MyPostsPage() {
     useAuth()
     
@@ -13,7 +15,7 @@ export default function MyPostsPage() {
     useEffect(()=>{
         const fetchPosts = async () => {
             try {
-                const response = await fetch(`http://localhost:9000/api/blog/posts/${username}`)
+                const response = await fetch(`${host}/blog/posts/${username}`)
                 const data = await response.json()
                 setPosts(data)
             } catch (err) {

@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { jwtDecode } from 'jwt-decode'
 import '../styles/login.css'
 
+var host = `http://localhost:9000/api`
+
 export default function Login() {
     const navigate = useNavigate()
     const [username, setUsername] = useState('')
@@ -16,7 +18,7 @@ export default function Login() {
 
         try {
             // Post the username and password to backend
-            const response = await fetch('http://localhost:9000/api/blog/login', {
+            const response = await fetch(`${host}/blog/login`, {
                 method: 'POST',
                 body: JSON.stringify(formData),
                 headers: { 'Content-Type' : 'application/json' }

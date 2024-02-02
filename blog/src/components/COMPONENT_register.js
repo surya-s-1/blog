@@ -1,5 +1,7 @@
 import {useState} from "react";
 
+var host = `http://localhost:9000/api`
+
 export default function Register() {
     const [message, setMessage] = useState(null)
     const [username, setUsername] = useState('')
@@ -17,7 +19,7 @@ export default function Register() {
 
         try {
             // Post the username and password to backend
-            const response = await fetch('http://localhost:9000/api/blog/register', {
+            const response = await fetch(`${host}/blog/register`, {
                 method: 'POST',
                 body: JSON.stringify(formData),
                 headers: { 'Content-Type' : 'application/json' }

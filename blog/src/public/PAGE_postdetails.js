@@ -4,6 +4,8 @@ import NavBar from "../components/COMPONENT_navbar";
 import useAuth from "../functions/FUNCTION_auth";
 import '../styles/postdetails.css'
 
+var host = `http://localhost:9000/api`
+
 export default function PostDetails() {
     useAuth()
     
@@ -19,10 +21,10 @@ export default function PostDetails() {
         // fetch post and comments for that post seperately
         const fetchPost = async () => {
             try {
-                const postResponse = await fetch(`http://localhost:9000/api/blog/posts/post/${post_id}`)
+                const postResponse = await fetch(`${host}/blog/posts/post/${post_id}`)
                 const postData = await postResponse.json()
 
-                const commentResponse = await fetch(`http://localhost:9000/api/blog/comments/post/${post_id}`)
+                const commentResponse = await fetch(`${host}/blog/comments/post/${post_id}`)
                 const commentData = await commentResponse.json()
 
                 setPost(postData)
@@ -39,7 +41,7 @@ export default function PostDetails() {
     const handleAddComment = async() => {
         const commentData = { post_id: post_id, username: currentuser, comment: newComment}
 
-        const response_post = await fetch('http://localhost:9000/api/blog/comments', {
+        const response_post = await fetch(`${host}/blog/comments`, {
             method: 'POST',
             body: JSON.stringify(commentData),
             headers: { 'Content-Type' : 'application/json' }
@@ -48,7 +50,7 @@ export default function PostDetails() {
         var data_post = await response_post.json()
         setMessage(data_post.message)
         
-        const response_get = await fetch(`http://localhost:9000/api/blog/comments/post/${post_id}`)
+        const response_get = await fetch(`${host}/blog/comments/post/${post_id}`)
         var data_get = await response_get.json()
         setComments(data_get)
         setNewComment('')
