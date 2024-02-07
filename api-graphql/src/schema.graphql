@@ -1,0 +1,45 @@
+type Query {
+    users: [User!]!
+    posts: [Post!]!
+    postdetails(id: Int!): Post!
+}
+
+type Mutation {
+    register(name: String!, email: String!, password: String!): User!
+    login(name: String!, password: String!): AuthPayLoad!
+    newPost(title: String!, content: String!, username: String!): Post!
+    newComment(comment: String!, post_id: Int!, username: String!): Comment!
+}
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    password: String!
+    posts: [Post!]!
+}
+
+type AuthPayLoad {
+    token: String
+}
+
+type Post {
+    id: ID!
+    title: String!
+    content: String!
+    createdAt: DateTime!
+    userId: Int!
+    comments: [Comment!]!
+    users: User!
+}
+
+type Comment {
+    id: ID!
+    content: String!
+    userId: Int!
+    postId: Int!
+    createdAt: DateTime!
+    users: User!
+}
+
+scalar DateTime

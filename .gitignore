@@ -2,3 +2,6 @@
 /api/package-lock.json
 /blog/node_modules
 /blog/package-lock.json
+/api-graphql/node_modules
+/api-graphql/.env
+/api-graphql/package-lock.json

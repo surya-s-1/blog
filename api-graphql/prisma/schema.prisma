@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+  content   String?  @db.Text
+  userId    Int
+  postId    Int
+  users     User     @relation(fields: [userId], references: [id], onDelete: Cascade, map: "comments_ibfk_1")
+  posts     Post     @relation(fields: [postId], references: [id], onDelete: Cascade, map: "comments_ibfk_2")
+
+  @@index([userId], map: "comments_ibfk_1")
+  @@index([postId], map: "comments_ibfk_2")
+  @@map("comments")
+}
+
+model Post {
+  id        Int       @id @default(autoincrement())
+  title     String    @db.VarChar(255)
+  createdAt DateTime  @default(now()) @db.Timestamp(0)
+  content   String?   @db.Text
+  userId    Int
+  comments  Comment[]
+  users     User      @relation(fields: [userId], references: [id], onDelete: Cascade, map: "posts_ibfk_1")
+
+  @@index([userId], map: "posts_ibfk_1")
+  @@map("posts")
+}
+
+model User {
+  id       Int       @id @default(autoincrement())
+  name     String?   @unique(map: "name") @db.VarChar(255)
+  email    String    @unique(map: "email") @db.VarChar(255)
+  password String?   @db.VarChar(255)
+  comments Comment[]
+  posts    Post[]
+
+  @@map("users")
+}
