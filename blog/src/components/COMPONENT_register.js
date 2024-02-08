@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-var host = `http://localhost:9000/api`
+var host = `http://localhost:8000/graphql`
 
 export default function Register() {
     const [message, setMessage] = useState(null)
@@ -27,6 +27,7 @@ export default function Register() {
 
             //Sets the response message whether registration was successful or not
             const data = await response.json()
+            console.log(data)
             setMessage(data.message)
         } catch (err) {
             console.error('Registration failed: ', err)

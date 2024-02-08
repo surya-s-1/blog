@@ -60,7 +60,6 @@ async function login (parent, args, context, info) {
 }
 
 async function newPost (parent, args, context, info) {
-
     const user = await context.prisma.user.findUnique({
         where: {
             name: await args.username
@@ -75,11 +74,19 @@ async function newPost (parent, args, context, info) {
         }
     })
 
-    return newPost
+    const newPostDetails = await context.prisma.post.findUnique({
+        where: {
+            id: newPost.id
+        },
+        include: {
+            users: true
+        }
+    })
+
+    return newPostDetails
 }
 
 async function newComment (parent, args, context, info) {
-
     const user = await context.prisma.user.findUnique({
         where: {
             name: await args.username
@@ -94,7 +101,16 @@ async function newComment (parent, args, context, info) {
         }
     })
 
-    return newComment
+    const newCommentDetails = await context.prisma.comment.findUnique({
+        where: {
+            id: newComment.id
+        },
+        include: {
+            users: true
+        }
+    })
+
+    return newCommentDetails
 }
 
 module.exports = {

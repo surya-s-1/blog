@@ -1,7 +1,8 @@
 type Query {
     users: [User!]!
-    posts: [Post!]!
-    postdetails(id: Int!): Post!
+    posts(orderBy: OrderByInput): [Post!]!
+    postDetails(id: Int!): Post!
+    myPosts(orderBy: OrderByInput, username: String!): [Post!]!
 }
 
 type Mutation {
@@ -40,6 +41,15 @@ type Comment {
     postId: Int!
     createdAt: DateTime!
     users: User!
+}
+
+input OrderByInput {
+    createdAt: Sort
+}
+
+enum Sort {
+    asc
+    desc
 }
 
 scalar DateTime

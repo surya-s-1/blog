@@ -4,7 +4,7 @@ import NavBar from "../components/COMPONENT_navbar";
 import useAuth from "../functions/FUNCTION_auth";
 import '../styles/postdetails.css'
 
-var host = `http://localhost:9000/api`
+var host = `http://localhost:8000/graphql`
 
 export default function PostDetails() {
     useAuth()
