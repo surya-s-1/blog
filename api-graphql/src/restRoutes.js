@@ -1,3 +1,6 @@
+/* As the data is sent through request bodies through forms from front-end, the data is given as arguments to GraphQL queries and mutations */
+
+// Register a new user
 async function register(req, res, apolloServer) {
     const {username, email, password} = req.body
 
@@ -11,6 +14,7 @@ async function register(req, res, apolloServer) {
         `
     })
 
+    // If the mutation is successful, success message is sent. Otherwise, response.data will be null and error message is sent as response
     if (response.data) {
         res.json({message: 'Registration successful'})
     } else {
@@ -18,6 +22,7 @@ async function register(req, res, apolloServer) {
     }
 }
 
+// Login an existing user
 async function login(req, res, apolloServer) {
     const {username, password} = req.body
 
@@ -31,6 +36,7 @@ async function login(req, res, apolloServer) {
         `
     })
 
+    // If the mutation is successful, token is sent. Otherwise, response.data will be null and error message is sent as response
     if (response.data) {
         const token = response.data.login.token
         res.json({token})
@@ -39,6 +45,7 @@ async function login(req, res, apolloServer) {
     }
 }
 
+// Getting all posts
 async function posts (req, res, apolloServer) {
     const {data} = await apolloServer.executeOperation({
         query: `
@@ -56,6 +63,8 @@ async function posts (req, res, apolloServer) {
     })
 
     const posts = data.posts
+
+    // Restructuring the data to match how its imported in the front-end
     const postsData = posts.map(post=>{
         const {id, title, createdAt, users } = post
 
@@ -72,6 +81,7 @@ async function posts (req, res, apolloServer) {
     res.status(200).json(postsData)
 }
 
+// Getting posts of a particular user
 async function myPosts(req,res,apolloServer) {
     var username = req.params.username
 
@@ -90,6 +100,8 @@ async function myPosts(req,res,apolloServer) {
     })
 
     const myPosts = data.myPosts
+
+    // Restructuring the data to match how its imported in the front-end
     const myPostsData = myPosts.map(post => {
         const {id, title, users} = post
 
@@ -105,6 +117,7 @@ async function myPosts(req,res,apolloServer) {
     res.status(200).json(myPostsData)
 }
 
+// Posting a new post
 async function newPost(req,res,apolloServer) {
     const {title, content, username} = req.body
 
@@ -124,9 +137,15 @@ async function newPost(req,res,apolloServer) {
         `
     })
 
-    res.status(201).json({success: true, post_id: data.newPost.id})
+    // If the mutation is successful, new post's id will be sent. Otherwise, data will be null and error message is sent as response
+    if (data) {
+        res.status(201).json({success: true, post_id: data.newPost.id})
+    } else {
+        res.status(401).json({message: 'Failed to post'})
+    }
 }
 
+// Posting a new comment under a post
 async function newComment(req,res,apolloServer) {
     const {comment, post_id, username} = req.body
 
@@ -145,9 +164,15 @@ async function newComment(req,res,apolloServer) {
         `
     })
 
-    res.status(201).json({message: "Commented"})
+    // If the mutation is successful, a success message is sent. Otherwise, data will be null and error message is sent as response
+    if (data) {
+        res.status(201).json({message: "Commented"})
+    } else {
+        res.status(401).json({message: 'Failed to comment'})
+    }
 }
 
+// Getting the details of a post
 async function postDetails(req,res,apolloServer) {
     var id = req.params.post_id
 
@@ -167,6 +192,7 @@ async function postDetails(req,res,apolloServer) {
         `
     })
 
+    // Restructuring the data to match how its imported in the front-end
     const postDetails = {
         post_id: data.postDetails.id,
         title: data.postDetails.title,
@@ -178,9 +204,11 @@ async function postDetails(req,res,apolloServer) {
     res.status(200).json(postDetails)
 }
 
+// Getting the comments under a post
 async function postComments(req,res,apolloServer) {
     var id = req.params.post_id
 
+    // Quering only the comments field of a post
     const {data} = await apolloServer.executeOperation({
         query: `
             query {
@@ -200,6 +228,7 @@ async function postComments(req,res,apolloServer) {
 
     const postComments = data.postDetails.comments
 
+    // Restructuring the data to match how its imported in the front-end
     const postCommentsData = postComments.map(comment => {
         const {id, content, createdAt, users} = comment
 
@@ -216,6 +245,7 @@ async function postComments(req,res,apolloServer) {
     res.status(200).json(postCommentsData)
 }
 
+// Defining the get and post paths
 function setupRestRoutes(app, apolloServer) {
     app.get('/graphql/blog/posts', (req,res)=> posts(req,res,apolloServer))
     app.get('/graphql/blog/posts/:username', (req,res)=> myPosts(req,res,apolloServer))

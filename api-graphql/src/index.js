@@ -7,9 +7,13 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 
+// Allow CORS
 app.use(cors())
+
+// Parse request body to JSON
 app.use(express.json())
 
+// Import resolver functions
 const Query = require('./resolvers/Query')
 const Mutation = require('./resolvers/Mutation')
 const Post = require('./resolvers/Post')
@@ -25,6 +29,7 @@ const apolloServer = new ApolloServer({
     context: {prisma}
 })
 
+// Need to await server.start() before applying middleware
 async function start() {
     await apolloServer.start()
     apolloServer.applyMiddleware({app})
@@ -32,6 +37,7 @@ async function start() {
 
 start()
 
+// Import and Set up REST routes
 const restRoutes = require('./restRoutes.js')
 restRoutes.setupRestRoutes(app, apolloServer)
 
