@@ -19,7 +19,7 @@ export default function Register() {
 
         try {
             // Post the username and password to backend
-            const response = await fetch(`${host}/blog/register`, {
+            const response = await fetch(`${host}/register`, {
                 method: 'POST',
                 body: JSON.stringify(formData),
                 headers: { 'Content-Type' : 'application/json' }

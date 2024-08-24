@@ -15,7 +15,7 @@ export default function MyPostsPage() {
     useEffect(()=>{
         const fetchPosts = async () => {
             try {
-                const response = await fetch(`${host}/blog/posts/${username}`)
+                const response = await fetch(`${host}/user/${username}/posts`)
                 const data = await response.json()
                 setPosts(data)
             } catch (err) {

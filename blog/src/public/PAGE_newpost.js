@@ -18,7 +18,7 @@ export default function NewPost() {
     // Pos the data to backend and if response is ok, naviate to that post else display error message
     const handleAddPost = async() => {
         const postData = {title: title, content: content, username: username}
-        const response = await fetch(`${host}/blog/posts`,{
+        const response = await fetch(`${host}/posts`,{
             method: 'POST',
             body: JSON.stringify(postData),
             headers: {

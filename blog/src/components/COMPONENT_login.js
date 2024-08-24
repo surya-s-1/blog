@@ -18,7 +18,7 @@ export default function Login() {
 
         try {
             // Post the username and password to backend
-            const response = await fetch(`${host}/blog/login`, {
+            const response = await fetch(`${host}/login`, {
                 method: 'POST',
                 body: JSON.stringify(formData),
                 headers: { 'Content-Type' : 'application/json' }

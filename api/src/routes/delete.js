@@ -7,7 +7,7 @@ router.use(bodyParser.json())
 
 /* DELETE a post */
 
-router.delete('/api/blog/post/:id', async (req,res) => {
+router.delete('/api/blog/posts/:id', async (req,res) => {
     var post_id = req.params.id
 
     connection.query(`DELETE FROM posts WHERE post_id = ?`,[post_id], (err, response) => {

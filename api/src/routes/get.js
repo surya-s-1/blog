@@ -30,8 +30,10 @@ router.get('/api/blog/posts', async (req,res) => {
 
 /* GET all the posts of a user with most recent first*/
 
-router.get('/api/blog/posts/:username', async (req,res) => {
+router.get('/api/blog/user/:username/posts', async (req,res) => {
     var username = req.params.username
+
+    console.log('GET USER', username, 'posts')
 
     connection.query(`SELECT post_id, username, title, content, timestamp AS post_time
         FROM posts
@@ -49,8 +51,10 @@ router.get('/api/blog/posts/:username', async (req,res) => {
 
 /* GET a post with its id */
 
-router.get('/api/blog/posts/post/:post_id', async (req,res) => {
-    var post_id = req.params.post_id
+router.get('/api/blog/posts/:id', async (req,res) => {
+    var post_id = req.params.id
+
+    console.log('GET posts', post_id)
 
     connection.query(`SELECT post_id, title, username, content, timestamp AS post_time
         FROM posts
@@ -66,8 +70,8 @@ router.get('/api/blog/posts/post/:post_id', async (req,res) => {
 
 // GET comments of a particular post with its id
 
-router.get('/api/blog/comments/post/:post_id', async (req,res) => {
-    var post_id = req.params.post_id
+router.get('/api/blog/comments/post/:id', async (req,res) => {
+    var post_id = req.params.id
 
     connection.query(`SELECT c.comment_id, c.username AS username, c.comment, c.timestamp AS comment_time
         FROM posts p LEFT JOIN comments c

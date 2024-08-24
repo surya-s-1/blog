@@ -16,7 +16,7 @@ export default function AllPosts() {
         // Get all the posts from backend on loading of page
         const fetchPosts = async () => {
             try {
-                const response = await fetch(`${host}/blog/posts`)
+                const response = await fetch(`${host}/posts`)
                 const data = await response.json()
                 setPosts(data)
             } catch (err) {

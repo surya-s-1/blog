@@ -20,13 +20,12 @@ export default function PostDetails() {
     const navigate = useNavigate()
 
     useEffect(()=>{
-        // fetch post and comments for that post seperately
         const fetchPost = async () => {
             try {
-                const postResponse = await fetch(`${host}/blog/posts/post/${post_id}`)
+                const postResponse = await fetch(`${host}/posts/${post_id}`)
                 const postData = await postResponse.json()
 
-                const commentResponse = await fetch(`${host}/blog/comments/post/${post_id}`)
+                const commentResponse = await fetch(`${host}/comments/post/${post_id}`)
                 const commentData = await commentResponse.json()
 
                 setPost(postData)
@@ -43,11 +42,10 @@ export default function PostDetails() {
         fetchPost()
     },[post_id, currentuser])
 
-    // on clicking add comment, the comment is posted to backend, sets the response message and fetches the all the comments of this post again to show the new posted comment
     const handleAddComment = async() => {
         const commentData = { post_id: post_id, username: currentuser, comment: newComment}
 
-        const response_post = await fetch(`${host}/blog/comments`, {
+        const response_post = await fetch(`${host}/comments`, {
             method: 'POST',
             body: JSON.stringify(commentData),
             headers: { 'Content-Type' : 'application/json' }
@@ -56,20 +54,24 @@ export default function PostDetails() {
         var data_post = await response_post.json()
         setMessage(data_post.message)
         
-        const response_get = await fetch(`${host}/blog/comments/post/${post_id}`)
+        const response_get = await fetch(`${host}/comments/post/${post_id}`)
         var data_get = await response_get.json()
         setComments(data_get)
         setNewComment('')
     }
 
     const handleDeletePost = async () => {
-        const response_delete = await fetch(`${host}/blog/post/${post_id}`, {
+        const response_delete = await fetch(`${host}/posts/${post_id}`, {
             method: 'DELETE'
         })
 
         if (response_delete.ok) {
             navigate(`/myposts`)
         }
+    }
+
+    const handleEditPost = () => {
+        navigate(`/post/${post_id}/edit`)
     }
 
     return(
@@ -79,7 +81,11 @@ export default function PostDetails() {
                 <div className="container">
                     <div className="title-delete">
                         <h2>{post.title}</h2>
-                        {showDelete && <button onClick={handleDeletePost}>Delete</button>}
+                        {showDelete && 
+                        <span>
+                            <button onClick={handleEditPost}>Edit</button>
+                            <button onClick={handleDeletePost}>Delete</button>    
+                        </span>}
                     </div>
                     <p>{post.content}</p>
                     <p className="username"><i>by <b>{post.username}</b></i></p>
