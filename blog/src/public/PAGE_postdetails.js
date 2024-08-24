@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import NavBar from "../components/COMPONENT_navbar";
 import useAuth from "../functions/FUNCTION_auth";
 import '../styles/postdetails.css'
 
-var host = `http://localhost:8000/graphql`
+var host = process.env.REACT_APP_API_ENDPOINT
 
 export default function PostDetails() {
     useAuth()
@@ -16,6 +16,8 @@ export default function PostDetails() {
     const [comments, setComments] = useState([])
     const [newComment, setNewComment] = useState('')
     const [message, setMessage] = useState(null)
+    const [showDelete, setShowDelete] = useState(false)
+    const navigate = useNavigate()
 
     useEffect(()=>{
         // fetch post and comments for that post seperately
@@ -29,13 +31,17 @@ export default function PostDetails() {
 
                 setPost(postData)
                 setComments(commentData)
+
+                if (postData.username === currentuser) {
+                    setShowDelete(true)
+                }
             } catch (err) {
                 console.error('Error fetching post: ', err)
             }
         }
 
         fetchPost()
-    },[post_id])
+    },[post_id, currentuser])
 
     // on clicking add comment, the comment is posted to backend, sets the response message and fetches the all the comments of this post again to show the new posted comment
     const handleAddComment = async() => {
@@ -56,12 +62,25 @@ export default function PostDetails() {
         setNewComment('')
     }
 
+    const handleDeletePost = async () => {
+        const response_delete = await fetch(`${host}/blog/post/${post_id}`, {
+            method: 'DELETE'
+        })
+
+        if (response_delete.ok) {
+            navigate(`/myposts`)
+        }
+    }
+
     return(
         <div>
             <NavBar />
             {post ? (
                 <div className="container">
-                    <h2>{post.title}</h2>
+                    <div className="title-delete">
+                        <h2>{post.title}</h2>
+                        {showDelete && <button onClick={handleDeletePost}>Delete</button>}
+                    </div>
                     <p>{post.content}</p>
                     <p className="username"><i>by <b>{post.username}</b></i></p>
 

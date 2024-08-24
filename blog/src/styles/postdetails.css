@@ -4,6 +4,7 @@
 
 .container h2, h3, p {
     margin: 12px;
+    overflow-wrap: break-word;
 }
 
 .container ul {
@@ -12,4 +13,11 @@
 
 .username {
     margin-left: 32px;
+}
+
+.title-delete {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
 }

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { jwtDecode } from 'jwt-decode'
 import '../styles/login.css'
 
-var host = `http://localhost:8000/graphql`
+var host = process.env.REACT_APP_API_ENDPOINT
 
 export default function Login() {
     const navigate = useNavigate()

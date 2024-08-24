@@ -4,7 +4,7 @@ import NavBar from "../components/COMPONENT_navbar"
 import useAuth from '../functions/FUNCTION_auth'
 import '../styles/newpost.css'
 
-var host = `http://localhost:8000/graphql`
+var host = process.env.REACT_APP_API_ENDPOINT
 
 export default function NewPost() {
     useAuth()

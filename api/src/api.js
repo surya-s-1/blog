@@ -6,6 +6,7 @@ const PORT = 9000
 const getRoutes = require('./routes/get')
 const postRoutes = require('./routes/post')
 const loginRoutes = require('./routes/login')
+const deleteRoutes = require('./routes/delete')
 
 // Allow CORS
 app.use((req,res,next)=>{
@@ -18,6 +19,7 @@ app.use((req,res,next)=>{
 app.use(loginRoutes)
 app.use(getRoutes)
 app.use(postRoutes)
+app.use(deleteRoutes)
 
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`)

@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-var host = `http://localhost:8000/graphql`
+var host = process.env.REACT_APP_API_ENDPOINT
 
 export default function Register() {
     const [message, setMessage] = useState(null)
