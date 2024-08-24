@@ -70,7 +70,8 @@ router.post('/api/blog/login', async (req, res) => {
 
             // If password check is successful i.e., true, then a jwt token is created along with username and sent as a response 
             if (passwordCheck) {
-                const token = jwt.sign({username}, secretKey, {expiresIn: '15m'})
+                // Token expires in 24 hours, will have to login again after that
+                const token = jwt.sign({username}, secretKey, {expiresIn: '24h'})
                 res.json({token})
             } else {
                 // If username is present but password doesn't match
